@@ -100,24 +100,29 @@ Lees de [projectopgave](https://javascript.pit-graduaten.be/evaluatie/mobile/pro
 over wat een native module juist is._
 
 ### expo-camera
-Link: https://docs.expo.dev/versions/latest/sdk/camera/\
+Link: https://docs.expo.dev/versions/latest/sdk/camera/
+
 Deze zal gebruikt worden om een foto te kunnen maken van je medicatie.
 
 ### expo-calender
-Link: https://github.com/expo/expo/tree/main/packages/expo-calendar\
+Link: https://github.com/expo/expo/tree/main/packages/expo-calendar
+
 Deze module zal gebruikt worden om met de calender van het toestel te communiceren. Dit zal gebruikt worden om te reminders in te stellen voor het nemen van de pillen.
 
 ### DateTimePicker
-Link: https://github.com/react-native-datetimepicker/datetimepicker\
+Link: https://github.com/react-native-datetimepicker/datetimepicker
+
 Deze module communiceert met de system OS om de correcte datetimepicker te laten zien. Dit zal gebruikt worden om bij het loggen de juiste date time in te vullen.
 
 ### react-native-swipeable-list
-Link: https://github.com/esthor/react-native-swipeable-list\
+Link: https://github.com/esthor/react-native-swipeable-list
+
 Deze module zorgt ervoor dat op de list items geswiped kan worden voor het kiezen van verschillende opties (deleten/edit).
 
 
 ### expo-local-authentication
-Link: https://github.com/expo/expo/tree/main/packages/expo-local-authentication\
+Link: https://github.com/expo/expo/tree/main/packages/expo-local-authentication
+
 Deze module zal gebruikt kunnen worden om in te kunnen loggen met faceID of fingerprint.
 
 ## Online services
@@ -129,7 +134,8 @@ over wat een native module juist is._
 Ik zal Supabase gebruiken om alle gegevens die gelogd worden op te slaan in een database, de Auth zal ik gebruiken om user based te kunnen inloggen en dus als gevolg dat elke user enkel zijn eigen opgeslagen logs kan bekijken. De Storage zal ik gebruiken om de fotos die genomen zijn in de applicatie op te slaan. Dit zijn foto's die enkel relevant zijn voor de gebruiker die is ingelogd als hij met de toepassing bezig is. Hierdoor zie ik het nut niet om deze ook in de media galerie op te slaan van het toestel zelf.
 
 ### Rest API Drugbank
-Link API Documention: https://docs.drugbank.com/v1/#selecting-your-region\
+Link API Documention: https://docs.drugbank.com/v1/#selecting-your-region
+
 Ik zou graag bij de medicatie de optie hebben om de medicatie te selecteren zodat je ook extra informatie over die bepaalde pillen kan zien.
 
 ## Gestures & animaties

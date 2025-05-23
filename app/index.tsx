@@ -1,15 +1,20 @@
-import { Text, View } from "react-native";
+import StyledTitle from "@/components/styledTitle";
+import { Link } from "expo-router";
+import { FunctionComponent } from "react";
+import { View } from "react-native";
 
-export default function Index() {
+const Index: FunctionComponent = () => {
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+    <View>
+      <StyledTitle>
+        <Link href="/login/login">Go to login</Link>
+      </StyledTitle>
+      <StyledTitle>
+        <Link href="/(tabs)/logs">Go to Tabs</Link>
+      </StyledTitle>      
     </View>
   );
 }
+
+export default Index;

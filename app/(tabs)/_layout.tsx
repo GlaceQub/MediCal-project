@@ -11,7 +11,6 @@ const Layout: FunctionComponent = () => {
           title: 'Logboek',
           headerShown: false,
           animation: 'fade',
-          // tabBarIcon: ({ color, size}) => <FontAwesome5 name="book-medical" size={size} color={color} />,
         }}
       />
 
@@ -21,7 +20,6 @@ const Layout: FunctionComponent = () => {
           title: 'Medicatie',
           headerShown: false,
           animation: 'fade',
-          // tabBarIcon: ({ color, size}) => <FontAwesome5 name="pills" size={size} color={color} />,
         }}
       />
 
@@ -31,7 +29,6 @@ const Layout: FunctionComponent = () => {
           title: 'Profiel',
           headerShown: false,
           animation: 'fade',
-          // tabBarIcon: ({ color, size}) => <FontAwesome5 name="portrait" size={size} color={color} />,
         }}
       />
     </Stack>

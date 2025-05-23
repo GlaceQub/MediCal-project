@@ -34,7 +34,7 @@ const StyledTabItem: FunctionComponent<StyledTabItemProps> = ({
         <View style={[{width: 85, alignItems: 'center', marginBottom: margin.sm, padding: padding.sm}, isActive && activeStyle]}>
           <FontAwesome5 name={icon} size={24} color={colors.text} />
         </View>
-        <StyledText style={[{fontSize: 14, marginBottom: margin.sm, textAlign: 'center'}, style]} {...textProps}>
+        <StyledText style={[{fontSize: 16, marginBottom: margin.sm, textAlign: 'center'}, style]} {...textProps}>
           {children}
         </StyledText>
       </View>

@@ -11,7 +11,7 @@ const Index: FunctionComponent = () => {
         <Link href="/login/login">Go to login</Link>
       </StyledTitle>
       <StyledTitle>
-        <Link href="/(tabs)/logs">Go to Tabs</Link>
+        <Link href="/(tabs)/logs/logs">Go to Tabs</Link>
       </StyledTitle>      
     </View>
   );

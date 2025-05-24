@@ -22,7 +22,7 @@ const LogItem: FunctionComponent<ILog> = () => {
   } // Example log item
 
   return (
-    <View style={[styles.listItem, {backgroundColor: colors.card, borderColor: colors.border}, {width: width}]}>
+    <View style={[styles.listItem, {backgroundColor: colors.card, borderColor: hex2rgba(colors.border, 0.8)}, {width: width}]}>
       <PainIndicator pain={log.pain} />
       <View style={{flexDirection: 'row', paddingHorizontal: padding.md}}>
         <View style={[{flexDirection: 'column'}, {width: 0.6 * width}]}>

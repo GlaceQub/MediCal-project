@@ -35,7 +35,7 @@ interface Colors {
   background: string
   card: string
   text: string
-  border: string
+  border: string,
   notification: string,
   status: statusColors
 }
@@ -81,7 +81,7 @@ const lightTheme: Theme = {
     background: colors.neutral[50],
     card: colors.neutral[100],
     text: colors.neutral[800],
-    border: colors.neutral[200],
+    border: colors.neutral[300],
     notification: colors.neutral[700],
     status: statusColors
   },

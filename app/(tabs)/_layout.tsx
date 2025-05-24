@@ -5,7 +5,7 @@ const Layout: FunctionComponent = () => {
   return (
     <Stack>
       <Stack.Screen
-        name="logs"
+        name="logs/logs"
         options={{
           title: 'Logboek',
           headerShown: false,
@@ -14,7 +14,7 @@ const Layout: FunctionComponent = () => {
       />
 
       <Stack.Screen
-        name="pills"
+        name="pills/pills"
         options={{
           title: 'Medicatie',
           headerShown: false,

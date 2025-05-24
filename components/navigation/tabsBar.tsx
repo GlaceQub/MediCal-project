@@ -9,10 +9,10 @@ const TabsBar: FunctionComponent = () => {
 
   return (
     <View style={[styles.linkContainer]}>
-      <StyledTabItem href="/(tabs)/logs" icon="book-medical" isActive={route.name === 'logs'}>
+      <StyledTabItem href="/(tabs)/logs/logs" icon="book-medical" isActive={route.name === 'logs/logs'}>
         Logboek
       </StyledTabItem>
-      <StyledTabItem href="/(tabs)/pills" icon="pills" isActive={route.name === 'pills'}>
+      <StyledTabItem href="/(tabs)/pills/pills" icon="pills" isActive={route.name === 'pills/pills'}>
         Medicatie
       </StyledTabItem>
       <StyledTabItem href="/(tabs)/profile" icon="portrait" isActive={route.name === 'profile'}>

@@ -2,6 +2,7 @@ import { defaultSpacing, ThemeContext } from '@/context/themeProvider';
 import { FunctionComponent, useContext } from 'react';
 import {useRouter} from 'expo-router'
 import { StyleSheet, View } from 'react-native';
+import PainIndicator from './painIndicator';
 
 const LogItem: FunctionComponent = () => {
   const {colors, padding, margin} = useContext(ThemeContext)
@@ -9,7 +10,7 @@ const LogItem: FunctionComponent = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.card, borderColor: colors.border}]}>
-      
+      <PainIndicator pain={9} />
     </View>
   )
 }

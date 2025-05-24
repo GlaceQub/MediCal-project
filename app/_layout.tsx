@@ -1,12 +1,11 @@
 import AppHeader from '@/components/appHeader'
 import "@/global.css";
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import ThemeProvider from '@/context/themeProvider'
 import {Stack} from 'expo-router'
 
 export default function RootLayout() {
   return (
-    <GluestackUIProvider mode="light"><ThemeProvider>
+    <ThemeProvider>
         <AppHeader/>
         <Stack>
           <Stack.Screen
@@ -34,6 +33,6 @@ export default function RootLayout() {
             }}
           />
         </Stack>
-      </ThemeProvider></GluestackUIProvider>
+      </ThemeProvider>
   );
 }

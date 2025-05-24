@@ -3,7 +3,8 @@ import {StyleSheet, useColorScheme, View} from 'react-native'
 import {StatusBar} from 'expo-status-bar'
 import {DefaultTheme, ThemeProvider as NavigationThemeProvider} from '@react-navigation/native'
 import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context'
-// import GluestackUIProvider from '@/components/ui/gluestack-ui-provider'
+import GluestackUIProvider from '@/components/ui/gluestack-ui-provider'
+import colors from "tailwindcss/colors"
 
 interface SpacingSizes {
   sm: number
@@ -53,17 +54,17 @@ interface Theme {
 }
 
 export const statusColors: statusColors = {
-  good: '#4CAF50',
-  ok: '#1f62ff',
-  warning: '#ffda1f',
-  bad: '#ff8b26',
-  critical: '#F44336',
+  good: colors.green[500],
+  ok: colors.lime[500],
+  warning: colors.amber[400],
+  bad: colors.orange[500],
+  critical: colors.red[500],
 }
 
 const darkTheme: Theme = {
   dark: true,
   colors: {
-    primary: '#FFA6A6',
+    primary: colors.red[400],
     text: '#d4d7db',
     border: '#d4d7db',
     notification: '#dae2ff',
@@ -98,14 +99,14 @@ const ThemeProvider: FunctionComponent<PropsWithChildren> = ({children}) => {
 
   return (
     <ThemeContext.Provider value={{...activeTheme, ...defaultSpacing}}>
-      {/* <GluestackUIProvider> */}
+      <GluestackUIProvider>
       <NavigationThemeProvider value={{...DefaultTheme, ...activeTheme}}>
         <SafeAreaProvider>
           <StatusBar style="auto" backgroundColor={activeTheme.colors.card} />
           <View style={[{backgroundColor: activeTheme.colors.background, marginTop: top}, styles.container]}>{children}</View>
         </SafeAreaProvider>
       </NavigationThemeProvider>
-      {/* </GluestackUIProvider> */}
+      </GluestackUIProvider>
     </ThemeContext.Provider>
   )
 }

@@ -24,14 +24,18 @@ const StyledTabItem: FunctionComponent<StyledTabItemProps> = ({
   const {margin, padding, colors} = useContext(ThemeContext)
 
   const activeStyle = {
-    backgroundColor: hex2rgba(colors.primary, 0.3),
+    backgroundColor: hex2rgba(colors.primary, 0.4),
     borderRadius: 20,
   }
 
   return (
     <Link href={href} style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
       <View>
-        <View style={[{width: 85, alignItems: 'center', marginBottom: margin.sm, padding: padding.sm}, isActive && activeStyle]}>
+        <View
+          style={[
+            {width: 85, alignItems: 'center', marginBottom: margin.sm, padding: padding.sm},
+            isActive && activeStyle,
+          ]}>
           <FontAwesome5 name={icon} size={24} color={colors.text} />
         </View>
         <StyledText style={[{fontSize: 16, marginBottom: margin.sm, textAlign: 'center'}, style]} {...textProps}>

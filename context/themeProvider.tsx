@@ -65,11 +65,11 @@ const darkTheme: Theme = {
   dark: true,
   colors: {
     primary: colors.red[400],
-    text: '#d4d7db',
-    border: '#d4d7db',
-    notification: '#dae2ff',
-    background: '#282c34',
-    card: '#1c1c22',
+    background: colors.black,
+    card: colors.neutral[950],
+    text: colors.neutral[300],
+    border: colors.neutral[500],
+    notification: colors.neutral[700],
     status: statusColors
   },
 }
@@ -77,12 +77,12 @@ const darkTheme: Theme = {
 const lightTheme: Theme = {
   dark: false,
   colors: {
-    primary: '#FF7373',
-    text: '#0F0F0F',
-    border: '#0F0F0F',
-    notification: '#dae2ff',
-    background: '#ffffff',
-    card: '#f9f7f4',
+    primary: colors.red[400],
+    background: colors.neutral[50],
+    card: colors.neutral[100],
+    text: colors.neutral[800],
+    border: colors.neutral[200],
+    notification: colors.neutral[700],
     status: statusColors
   },
 }

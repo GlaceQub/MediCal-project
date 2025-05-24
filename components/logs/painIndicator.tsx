@@ -17,7 +17,7 @@ const PainIndicator: FunctionComponent<PainIndicationProps> = ({ pain }) => {
   const progressValue = ((pain - 1) * (100 - 1)) / (10 - 1) + 1;
 
   return (
-    <View style={[{height: 80, flexDirection: "row",}]}>
+    <View style={{flexDirection: "row"}}>
       <StyledText style={{ color: colors.text, fontSize: 16, verticalAlign: "middle", textAlign:"right", width: 20}}>{Math.floor(pain)}</StyledText>
       <Progress value={progressValue} size="md" orientation="vertical" style={{marginLeft: margin.sm}} >
         <ProgressFilledTrack style={{backgroundColor: progressColor}} />

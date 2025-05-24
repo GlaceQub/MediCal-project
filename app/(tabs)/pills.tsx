@@ -1,10 +1,10 @@
 import StyledText from '@/components/styledText'
-import TabsBar from '@/components/tabsBar'
+import TabsBar from '@/components/navigation/tabsBar'
 import { Link } from 'expo-router'
 import {FunctionComponent} from 'react'
 import {Text} from 'react-native'
 
-const Index: FunctionComponent = () => {
+const Pills: FunctionComponent = () => {
   return (
     <>
       <TabsBar />
@@ -12,4 +12,4 @@ const Index: FunctionComponent = () => {
   )
 }
 
-export default Index
+export default Pills

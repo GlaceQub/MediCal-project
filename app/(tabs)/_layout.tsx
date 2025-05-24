@@ -1,6 +1,5 @@
 import {Stack} from 'expo-router'
 import React, {FunctionComponent} from 'react'
-import {FontAwesome5} from '@expo/vector-icons'
 
 const Layout: FunctionComponent = () => {
   return (

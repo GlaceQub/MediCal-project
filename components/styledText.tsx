@@ -1,5 +1,5 @@
 import {ComponentProps, FunctionComponent, useContext} from 'react'
-import {ThemeContext} from '../context/themeProvider'
+import {ThemeContext} from '@/context/themeProvider'
 import {Text} from 'react-native'
 
 /**

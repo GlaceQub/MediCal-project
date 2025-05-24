@@ -1,15 +1,12 @@
-import {Link} from 'expo-router'
 import React, {FunctionComponent, useContext} from 'react'
 import {View} from 'react-native'
-import StyledTitle from './styledTitle'
 import {useRoute} from '@react-navigation/native'
-import {ThemeContext} from '@/context/themeProvider'
 import {StyleSheet} from 'react-native'
 import StyledTabItem from './styledTabItem'
 
 const TabsBar: FunctionComponent = () => {
   const route = useRoute()
-  const {colors, margin, padding} = useContext(ThemeContext)
+
   return (
     <View style={[styles.linkContainer]}>
       <StyledTabItem href="/(tabs)/logs" icon="book-medical" isActive={route.name === 'logs'}>

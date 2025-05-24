@@ -3,6 +3,7 @@ import {StyleSheet, useColorScheme, View} from 'react-native'
 import {StatusBar} from 'expo-status-bar'
 import {DefaultTheme, ThemeProvider as NavigationThemeProvider} from '@react-navigation/native'
 import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context'
+// import GluestackUIProvider from '@/components/ui/gluestack-ui-provider'
 
 interface SpacingSizes {
   sm: number
@@ -15,7 +16,7 @@ interface Spacing {
   margin: SpacingSizes
 }
 
-const defaultSpacing: Spacing = {
+export const defaultSpacing: Spacing = {
   padding: {
     sm: 5,
     md: 10,
@@ -34,12 +35,29 @@ interface Colors {
   card: string
   text: string
   border: string
-  notification: string
+  notification: string,
+  status: statusColors
+}
+
+interface statusColors {
+  good: string
+  ok: string
+  warning: string
+  bad: string
+  critical: string
 }
 
 interface Theme {
   dark: boolean
   colors: Colors
+}
+
+export const statusColors: statusColors = {
+  good: '#4CAF50',
+  ok: '#1f62ff',
+  warning: '#ffda1f',
+  bad: '#ff8b26',
+  critical: '#F44336',
 }
 
 const darkTheme: Theme = {
@@ -51,6 +69,7 @@ const darkTheme: Theme = {
     notification: '#dae2ff',
     background: '#282c34',
     card: '#1c1c22',
+    status: statusColors
   },
 }
 
@@ -63,6 +82,7 @@ const lightTheme: Theme = {
     notification: '#dae2ff',
     background: '#ffffff',
     card: '#f9f7f4',
+    status: statusColors
   },
 }
 
@@ -78,12 +98,14 @@ const ThemeProvider: FunctionComponent<PropsWithChildren> = ({children}) => {
 
   return (
     <ThemeContext.Provider value={{...activeTheme, ...defaultSpacing}}>
+      {/* <GluestackUIProvider> */}
       <NavigationThemeProvider value={{...DefaultTheme, ...activeTheme}}>
         <SafeAreaProvider>
           <StatusBar style="auto" backgroundColor={activeTheme.colors.card} />
           <View style={[{backgroundColor: activeTheme.colors.background, marginTop: top}, styles.container]}>{children}</View>
         </SafeAreaProvider>
       </NavigationThemeProvider>
+      {/* </GluestackUIProvider> */}
     </ThemeContext.Provider>
   )
 }

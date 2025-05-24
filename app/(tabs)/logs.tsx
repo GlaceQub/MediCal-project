@@ -1,15 +1,13 @@
-import StyledText from '@/components/styledText'
-import TabsBar from '@/components/tabsBar'
-import { Link } from 'expo-router'
+import TabsBar from '@/components/navigation/tabsBar'
 import {FunctionComponent} from 'react'
-import {Text} from 'react-native'
 
-const Index: FunctionComponent = () => {
+const Logs: FunctionComponent = () => {
   return (
     <>
       <TabsBar />
+
     </>
   )
 }
 
-export default Index
+export default Logs

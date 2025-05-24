@@ -151,12 +151,12 @@ Link: https://github.com/react-native-datetimepicker/datetimepicker
 Deze module communiceert met de system OS om de correcte datetimepicker te laten zien. Dit zal gebruikt worden om bij
 het loggen de juiste date time in te vullen.
 
-### react-native-swipeable-list
+<!-- ### react-native-swipeable-list
 
 Link: https://github.com/esthor/react-native-swipeable-list
 
 Deze module zorgt ervoor dat op de list items geswiped kan worden voor het kiezen van verschillende opties (
-deleten/edit).
+deleten/edit). -->
 
 ### expo-local-authentication
 
@@ -179,12 +179,12 @@ zal ik gebruiken om de fotos die genomen zijn in de applicatie op te slaan. Dit 
 de gebruiker die is ingelogd als hij met de toepassing bezig is. Hierdoor zie ik het nut niet om deze ook in de media
 galerie op te slaan van het toestel zelf.
 
-### Rest API Drugbank
+<!-- ### Rest API Drugbank
 
 Link API Documention: https://docs.drugbank.com/v1/#selecting-your-region
 
 Ik zou graag bij de medicatie de optie hebben om de medicatie te selecteren zodat je ook extra informatie over die
-bepaalde pillen kan zien.
+bepaalde pillen kan zien. -->
 
 ## Gestures & animaties
 

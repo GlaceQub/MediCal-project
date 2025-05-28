@@ -7,6 +7,7 @@ import StyledText from '@/components/styledText'
 import ILog from '@/models/ILog'
 import hex2rgba from '@/utils/hex2rgba'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { Button } from '../ui/button'
 
 const LogItem: FunctionComponent<ILog> = () => {
   const {colors, padding,} = useContext(ThemeContext)
@@ -15,14 +16,14 @@ const LogItem: FunctionComponent<ILog> = () => {
 
   const log: ILog = {
     bodypart: 'Hoofd',
-    pain: 5,
+    pain: 4,
     date: new Date(),
     id: '1',
     complaint: 'test complaint lorum test test lorum test test',
   } // Example log item
 
   return (
-    <View style={[styles.listItem, {backgroundColor: colors.card, borderColor: hex2rgba(colors.border, 0.8)}, {width: width}]}>
+    <Button style={[styles.listItem, {backgroundColor: colors.card, borderColor: hex2rgba(colors.border, 0.8)}, {width: width}]}>
       <PainIndicator pain={log.pain} />
       <View style={{flexDirection: 'row', paddingHorizontal: padding.md}}>
         <View style={[{flexDirection: 'column'}, {width: 0.6 * width}]}>
@@ -38,7 +39,7 @@ const LogItem: FunctionComponent<ILog> = () => {
           <FontAwesome5 name="chevron-right" color={hex2rgba(colors.text, 0.6)} style={styles.ListItemChevron} />
         </View>
       </View>
-    </View>
+    </Button>
   )
 }
 

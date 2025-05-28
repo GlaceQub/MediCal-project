@@ -1,7 +1,15 @@
 import {Stack} from 'expo-router'
 import React, {FunctionComponent} from 'react'
+import {Redirect} from 'expo-router'
+import useUser from '@/hooks/useUser'
 
 const Layout: FunctionComponent = () => {
+  const user = useUser()
+
+  if (!user) {
+    return <Redirect href="/login/login" />
+  }
+
   return (
     <Stack>
       <Stack.Screen

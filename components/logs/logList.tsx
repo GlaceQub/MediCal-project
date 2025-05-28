@@ -14,7 +14,7 @@ const LogList: FunctionComponent<LogListProps> = ({ filter }) => {
   const filteredLogs = logs.filter(log => filter === null ? true : log.bodypart.includes(filter) || log.complaint.includes(filter))
   const route = useRoute()
   const {width} = useWindowDimensions()
-  
+
   return (
     <>
       <FlashList

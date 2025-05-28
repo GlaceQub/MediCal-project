@@ -1,4 +1,5 @@
 import Filter from '@/components/filter'
+import LogItem from '@/components/logs/logItem'
 import LogList from '@/components/logs/logList'
 import TabsBar from '@/components/navigation/tabsBar'
 import {FunctionComponent} from 'react'
@@ -10,7 +11,8 @@ const Logs: FunctionComponent = () => {
     <>
       <TabsBar />
       <Filter itemType={'logs'} />
-      <LogList filter={filterValue}/>
+      {/* <LogList filter={filterValue}/> */}
+      <LogItem />
     </>
   )
 }

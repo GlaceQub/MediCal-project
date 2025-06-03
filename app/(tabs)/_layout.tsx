@@ -5,8 +5,8 @@ import useUser from '@/hooks/useUser'
 
 const Layout: FunctionComponent = () => {
   const user = useUser()
-
-  if (!user) {
+  
+  if (!user) {  
     return <Redirect href="/login/login" />
   }
 

@@ -1,12 +1,15 @@
 import IDaysOfWeek from './IDaysOfWeek'
 
 interface IPill {
-  id: string,
+  id?: string,
   name: string, // name of the pill
   description: string, // description of the pill
   duration?: number, // in days
-  moment?: Date | string, // time of intake or custom remark (for example: "before breakfast")
+  date?: Date, // start date for the pill
+  moment?: Date[], // time(s) of intake
   days: IDaysOfWeek // days of the week when the pill should be taken
+  userId?: string // user ID of the person who created the pill
+  imageUrl?: string // URL of the pill image
 }
 
 export default IPill

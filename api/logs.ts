@@ -2,7 +2,6 @@ import ILog from '@/models/ILog'
 import {documentData, getCollectionRef, getDataFromQuerySnapshot, getDocumentRef} from '@/api/firestoreUtils'
 import {useMutation, UseMutationResult, useQuery, useQueryClient, UseQueryResult} from '@tanstack/react-query'
 import {getCurrentUser} from './auth'
-import {getDoc} from '@react-native-firebase/firestore'
 import useUser from '@/hooks/useUser'
 
 //region Mutations & queries

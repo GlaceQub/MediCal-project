@@ -1,4 +1,4 @@
-import {useAddLog, useGetLog, useUpdateLog} from '@/api/logs'
+import {useAddPill, useGetPill, useUpdatePill} from '@/api/pills'
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react'
 import StyledText from '@/components/styledText'
 import {View} from 'react-native'
@@ -12,16 +12,16 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import {StyleSheet} from 'react-native'
 import {ThemeContext} from '@/context/themeProvider'
 
-interface logFormProps {
+interface pillFormProps {
   id?: string
 }
 
-const LogForm: FunctionComponent<logFormProps> = ({id}) => {
+const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
   const {colors} = useContext(ThemeContext)
 
-  const {mutate: addLog} = useAddLog()
-  const {mutate: updateLog} = useUpdateLog()
-  const {data: log} = useGetLog(id ?? '')
+  const {mutate: addPill} = useAddPill()
+  const {mutate: updatePill} = useUpdatePill()
+  const {data: pill} = useGetPill(id ?? '')
 
   const [bodypart, setBodypart] = useState('')
   const [complaint, setComplaint] = useState('')
@@ -44,22 +44,22 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
   }
 
   useEffect(() => {
-    if (log) {
-      setBodypart(log.bodypart ?? '')
-      setComplaint(log.complaint ?? '')
-      setExtraInformation(log.extraInformation ?? '')
-      setPain(log.pain ?? 0)
-      setDate(toDateObj(log.date))
+    if (pill) {
+      setBodypart(pill.bodypart ?? '')
+      setComplaint(pill.complaint ?? '')
+      setExtraInformation(pill.extraInformation ?? '')
+      setPain(pill.pain ?? 0)
+      setDate(toDateObj(pill.date))
     }
-  }, [log])
+  }, [pill])
 
-  const handleCreateUpdateLog = () => {
+  const handleCreateUpdatePill = () => {
     if (!bodypart || !complaint || pain < 0 || pain > 10 || !date) {
       alert('Please fill in all required fields correctly.')
       return
     }
     if (id) {
-      updateLog({
+      updatePill({
         id,
         bodypart,
         complaint,
@@ -68,7 +68,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
         date,
       })
     } else {
-      addLog({
+      addPill({
         bodypart,
         complaint,
         extraInformation: extraInformation || null,
@@ -82,7 +82,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
   return (
     <>
       <StyledText style={styles.title} className="text-center">
-        {id ? 'Update log' : 'Create log'}
+        {id ? 'Update medication' : 'Create medication'}
       </StyledText>
       <View style={{gap: 16}} className="p-4">
         <View>
@@ -130,8 +130,8 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
             <TextareaInput style={{textAlignVertical: 'top'}} placeholder="Extra information about you complaint..." />
           </Textarea>
         </View>
-        <Button onPress={handleCreateUpdateLog}>
-          <ButtonText>{id ? 'Update log' : 'Add log'}</ButtonText>
+        <Button onPress={handleCreateUpdatePill}>
+          <ButtonText>{id ? 'Update medication' : 'Add medication'}</ButtonText>
         </Button>
         <Button
           onPress={router.back}
@@ -144,7 +144,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
   )
 }
 
-export default LogForm
+export default PillForm
 
 const styles = StyleSheet.create({
   title: {fontSize: 24, fontWeight: 'bold'},

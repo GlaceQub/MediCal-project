@@ -1,9 +1,8 @@
-import useUser from '@/hooks/useUser'
-import { Redirect } from 'expo-router'
+import PillForm from '@/components/logs/logForm'
 import {FunctionComponent} from 'react'
 
 const CreatePillRecord: FunctionComponent = () => {
-  return <></>
+  return <PillForm />
 }
 
 export default CreatePillRecord

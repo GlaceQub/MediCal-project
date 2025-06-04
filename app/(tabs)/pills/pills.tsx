@@ -1,14 +1,16 @@
-import TabsBar from '@/components/navigation/tabsBar'
-import {FunctionComponent} from 'react'
 import Filter from '@/components/filter'
-import useUser from '@/hooks/useUser'
-import { Redirect } from 'expo-router'
+import PillList from '@/components/pills/pillList'
+import TabsBar from '@/components/navigation/tabsBar'
+import {FunctionComponent, useState} from 'react'
 
 const Pills: FunctionComponent = () => {
+  const [filter, setFilter] = useState<string | null>(null)
+
   return (
     <>
       <TabsBar />
-      <Filter itemType={'pills'} />
+      <Filter itemType='pills' onFilterChange={setFilter} />
+      <PillList filter={filter}/> 
     </>
   )
 }

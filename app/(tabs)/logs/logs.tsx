@@ -1,20 +1,16 @@
 import Filter from '@/components/filter'
-import LogItem from '@/components/logs/logItem'
 import LogList from '@/components/logs/logList'
 import TabsBar from '@/components/navigation/tabsBar'
-import useUser from '@/hooks/useUser'
-import { Redirect } from 'expo-router'
-import {FunctionComponent} from 'react'
+import {FunctionComponent, useState} from 'react'
 
 const Logs: FunctionComponent = () => {
-  const filterValue = null // This can be set to a specific bodypart or complaint to filter logs
+  const [filter, setFilter] = useState<string | null>(null)
 
   return (
     <>
       <TabsBar />
-      <Filter itemType={'logs'} />
-      {/* <LogList filter={filterValue}/> */}
-      <LogItem />
+      <Filter itemType='logs' onFilterChange={setFilter} />
+      <LogList filter={filter}/> 
     </>
   )
 }

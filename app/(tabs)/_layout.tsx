@@ -14,10 +14,14 @@ const Layout: FunctionComponent = () => {
   return (
     <>
       <AppHeader />
-      <Stack>
-        <Stack.Screen name="logs/logs" options={{title: 'Logboek', headerShown: false, animation: 'fade'}} />
-
-        <Stack.Screen name="pills/pills" options={{title: 'Medicatie', headerShown: false, animation: 'fade'}} />
+      <Stack key={user.uid}>
+        <Stack.Screen name="logs/logs" options={{title: 'Logs', headerShown: false, animation: 'fade'}} />
+        <Stack.Screen name="logs/create" options={{title: 'Create log', headerShown: false, animation: 'fade'}} />
+        <Stack.Screen name="logs/[logId]" options={{title: 'Details log', headerShown: false, animation: 'fade'}} />
+        
+        <Stack.Screen name="pills/pills" options={{title: 'Medication', headerShown: false, animation: 'fade'}} />
+        <Stack.Screen name="pills/create" options={{title: 'Create medication', headerShown: false, animation: 'fade'}} />
+        <Stack.Screen name="pills/[pillId]" options={{title: 'Details medication', headerShown: false, animation: 'fade'}} />
 
         <Stack.Screen name="profile" options={{title: 'Profiel', headerShown: false, animation: 'fade'}} />
       </Stack>

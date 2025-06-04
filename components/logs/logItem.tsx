@@ -6,27 +6,29 @@ import PainIndicator from './painIndicator'
 import StyledText from '@/components/styledText'
 import ILog from '@/models/ILog'
 import hex2rgba from '@/utils/hex2rgba'
-import { FontAwesome5 } from '@expo/vector-icons'
-import { Button } from '../ui/button'
+import {FontAwesome5} from '@expo/vector-icons'
+import {Button} from '../ui/button'
+import { toDateObj } from '@/utils/dateStringToDateObj'
 
-const LogItem: FunctionComponent<ILog> = () => {
-  const {colors, padding,} = useContext(ThemeContext)
+const LogItem: FunctionComponent<ILog> = props => {
+  const {colors, padding} = useContext(ThemeContext)
   const router = useRouter()
   const width = useWindowDimensions().width
+  const log = props
 
-  const log: ILog = {
-    bodypart: 'Hoofd',
-    pain: 4,
-    date: new Date(),
-    id: '1',
-    complaint: 'test complaint lorum test test lorum test test',
-  } // Example log item
+  const date = toDateObj(log.date)
 
   return (
-    <Button style={[styles.listItem, {backgroundColor: colors.card, borderColor: hex2rgba(colors.border, 0.8)}, {width: width}]}>
+    <Button
+      style={[
+        styles.listItem,
+        {backgroundColor: colors.card, borderColor: hex2rgba(colors.border, 0.8)},
+        {width: width},
+      ]}
+      onPress={() => router.push(`/logs/${log.id}`)}>
       <PainIndicator pain={log.pain} />
-      <View style={{flexDirection: 'row', paddingHorizontal: padding.md}}>
-        <View style={[{flexDirection: 'column'}, {width: 0.6 * width}]}>
+      <View style={{flexDirection: 'row', paddingHorizontal: padding.md, height: '100%', flex: 1}}>
+        <View style={[{flexDirection: 'column'}, {width: 0.55 * width}]}>
           <StyledText style={[{color: colors.text}, styles.ListItemBodypart]}>{log.bodypart}</StyledText>
           <StyledText style={[{color: hex2rgba(colors.text, 0.6)}, styles.ListItemComplaint]}>
             {log.complaint}
@@ -34,7 +36,7 @@ const LogItem: FunctionComponent<ILog> = () => {
         </View>
         <View style={{flexDirection: 'column', alignItems: 'flex-end', flex: 1}}>
           <StyledText style={[{color: hex2rgba(colors.text, 0.6)}, styles.listItemDate]}>
-            {log.date.toLocaleDateString("en-GB")}
+            {date.toLocaleDateString('en-GB')}
           </StyledText>
           <FontAwesome5 name="chevron-right" color={hex2rgba(colors.text, 0.6)} style={styles.ListItemChevron} />
         </View>
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   ListItemBodypart: {
-    fontSize: 22
+    fontSize: 22,
   },
   ListItemComplaint: {
     fontSize: 14,
@@ -66,8 +68,8 @@ const styles = StyleSheet.create({
   ListItemChevron: {
     fontSize: 20,
     textAlign: 'right',
-    marginVertical: "auto"
-  }
+    marginVertical: 'auto',
+  },
 })
 
 export default LogItem

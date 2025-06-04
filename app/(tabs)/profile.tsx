@@ -8,7 +8,6 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { Redirect } from 'expo-router'
 
 const Index: FunctionComponent = () => {
-  const user = useUser()
   const {mutate: signOut} = useSignOut()
 
   return (

@@ -10,13 +10,13 @@ const TabsBar: FunctionComponent = () => {
   return (
     <View style={[styles.linkContainer]}>
       <StyledTabItem href="/(tabs)/logs/logs" icon="book-medical" isActive={route.name === 'logs/logs'}>
-        Logboek
+        Logs
       </StyledTabItem>
       <StyledTabItem href="/(tabs)/pills/pills" icon="pills" isActive={route.name === 'pills/pills'}>
-        Medicatie
+        Medication
       </StyledTabItem>
       <StyledTabItem href="/(tabs)/profile" icon="portrait" isActive={route.name === 'profile'}>
-        Profiel
+        Profile
       </StyledTabItem>
     </View>
   )

@@ -2,6 +2,7 @@ import {useMutation, UseMutationResult, useQuery, useQueryClient} from '@tanstac
 import auth from '@react-native-firebase/auth'
 import {GoogleSignin} from '@react-native-google-signin/google-signin'
 import {AuthCredential, User} from '@/models/firebaseTypes'
+import { useRouter } from 'expo-router'
 
 //region Mutations & queries
 
@@ -59,7 +60,7 @@ interface SignInParams {
 }
 
 async function signIn({provider}: SignInParams): Promise<User | null> {
-  let credential: AuthCredential | null = null
+    let credential: AuthCredential | null = null
   switch (provider) { 
     case AuthProvider.GOOGLE:
       credential = await createGoogleCredential()

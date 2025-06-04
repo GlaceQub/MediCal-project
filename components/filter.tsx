@@ -5,15 +5,20 @@ import {StyleSheet} from 'react-native'
 import {Button} from '@/components/ui/button'
 import {FontAwesome5} from '@expo/vector-icons'
 import {ThemeContext} from '@/context/themeProvider'
-import { router } from 'expo-router'
+import { useRouter } from 'expo-router'
 
 interface FilterProps {
-  itemType: 'logs' | 'pills'
+  itemType: 'logs' | 'pills',
+  onFilterChange: (value: string) => void;
 }
 
-const Filter: FunctionComponent<FilterProps> = ({ itemType }) => {
+const Filter: FunctionComponent<FilterProps> = ({ itemType, onFilterChange }) => {
   const {colors} = useContext(ThemeContext)
-  const isInvalid = false // This can be set based on validation logic
+  const router = useRouter()
+
+  const handleFilterChange = (value: string) => {
+    onFilterChange(value)
+  }
 
   return (
     <View style={styles.container}>
@@ -21,7 +26,7 @@ const Filter: FunctionComponent<FilterProps> = ({ itemType }) => {
         <InputSlot>
           <FontAwesome5 name="search" size={18} style={styles.icon} />
         </InputSlot>
-        <InputField style={{fontSize: 16}} type="text"/>
+        <InputField style={{fontSize: 16}} type="text" onChangeText={handleFilterChange}/>
       </Input>
       <Button
         size="md"

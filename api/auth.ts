@@ -63,7 +63,6 @@ async function signIn({provider}: SignInParams): Promise<User | null> {
   switch (provider) { 
     case AuthProvider.GOOGLE:
       credential = await createGoogleCredential()
-      console.log("cred: ", credential)
       break
     default:
       throw new Error('Invalid provider')
@@ -100,11 +99,8 @@ GoogleSignin.configure({webClientId: process.env.EXPO_PUBLIC_WEB_CLIENT_ID})
 async function createGoogleCredential(): Promise<AuthCredential | null> {
   // Check if your device supports Google Play
   await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true})
-  console.log("test")
   // Get the users ID token
   const signInResult = await GoogleSignin.signIn()
-  console.log("result")
-  console.log(signInResult)
   
   // Retrieve the ID Token
   const idToken = signInResult.data?.idToken

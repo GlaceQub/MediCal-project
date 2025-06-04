@@ -18,8 +18,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/adaptive-app-icon.png",
+        "backgroundColor": "#ffffff",
+        "resizeMode": "contain"
       },
       "package": "com.aeschlimann_david.medical",
       "googleServicesFile": "./google-services.json"
@@ -27,7 +28,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon-app.png"
       
     },
     "plugins": [

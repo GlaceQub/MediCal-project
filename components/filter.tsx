@@ -29,7 +29,7 @@ const Filter: FunctionComponent<FilterProps> = ({ itemType }) => {
         style={[styles.addButton, {backgroundColor: colors.background, borderColor: colors.border}]}
         action="primary"
         onPress={() => router.push(`/(tabs)/${itemType}/create`)}>
-        <FontAwesome5 name="plus" size={16} color={colors.text} />
+        <FontAwesome5 name="plus" size={24} color='#ff3d3d' style={{margin:-10}} />
       </Button>
     </View>
   )
@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     padding: 0,
+    margin:0,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 999,
     borderWidth: 1,
-    margin: 0,
   },
 })
 

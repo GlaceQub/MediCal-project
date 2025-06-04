@@ -11,7 +11,7 @@ const AppTitle: FunctionComponent<StyledTextProps> = ({ children, style, ...text
   const {margin} = useContext(ThemeContext)
 
   return (
-    <StyledText style={[{ fontSize: 28, marginBottom: margin.md, textAlign: "center"}, style]} {...textProps}>
+    <StyledText style={[{ fontSize: 28} , style]} {...textProps}>
       {children}
     </StyledText>
   )

@@ -1,9 +1,9 @@
-import { FunctionComponent } from "react";
+import useUser from '@/hooks/useUser'
+import { Redirect } from 'expo-router'
+import {FunctionComponent} from 'react'
 
 const CreateLogRecord: FunctionComponent = () => {
-  return (
-    <></>
-  )
+  return <></>
 }
 
 export default CreateLogRecord

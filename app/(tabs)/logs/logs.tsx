@@ -2,6 +2,8 @@ import Filter from '@/components/filter'
 import LogItem from '@/components/logs/logItem'
 import LogList from '@/components/logs/logList'
 import TabsBar from '@/components/navigation/tabsBar'
+import useUser from '@/hooks/useUser'
+import { Redirect } from 'expo-router'
 import {FunctionComponent} from 'react'
 
 const Logs: FunctionComponent = () => {

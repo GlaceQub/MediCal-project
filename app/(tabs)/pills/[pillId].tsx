@@ -1,4 +1,4 @@
-import PillForm from "@/components/logs/logForm";
+import PillForm from "@/components/pills/pillForm";
 import { useLocalSearchParams } from "expo-router";
 import { FunctionComponent } from "react";
 

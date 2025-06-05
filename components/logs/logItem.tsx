@@ -27,7 +27,7 @@ const LogItem: FunctionComponent<ILog> = props => {
       ]}
       onPress={() => router.push(`/logs/${log.id}`)}>
       <PainIndicator pain={log.pain} />
-      <View style={{flexDirection: 'row', paddingHorizontal: padding.md, height: '100%', flex: 1}}>
+      <View style={{flexDirection: 'row', paddingLeft: padding.md, height: '100%', flex: 1}}>
         <View style={[{flexDirection: 'column'}, {width: 0.55 * width}]}>
           <StyledText style={[{color: colors.text}, styles.ListItemBodypart]}>{log.bodypart}</StyledText>
           <StyledText style={[{color: hex2rgba(colors.text, 0.6)}, styles.ListItemComplaint]}>

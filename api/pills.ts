@@ -76,7 +76,9 @@ const getPills = async (): Promise<IPill[]> => {
     throw new Error('User not logged in')
   }
 
-  const querySnapshot = await getCollectionRef<IPill>('pills').where('userId', '==', user.uid).orderBy('date, duration', 'asc').get()
+  console.log('Fetching pills for user: ', user.uid)
+
+  const querySnapshot = await getCollectionRef<IPill>('pills').where('userId', '==', user.uid).orderBy('date', 'asc').orderBy('duration', 'asc').get()
   return getDataFromQuerySnapshot(querySnapshot, 'id')
 }
 
@@ -101,14 +103,14 @@ const getPill = async (id: string): Promise<IPill> => {
 interface AddPillParams {
   name: string
   description: string
-  duration?: number // in days
-  moment?: Date[]
+  duration: number // in days
+  moments: { hour: number; minute: number }[] // <-- updated type
   days: IDaysOfWeek // days of the week when the pill should be taken
-  imageUrl?: string // URL of the pill image
   date: Date // start date for the pill
+  imageUrl?: string // URL of the pill image
 }
 
-const addPill = async ({name, description, duration, moment, days, imageUrl, date}: AddPillParams): Promise<IPill> => {
+const addPill = async ({name, description, duration, moments, days, imageUrl, date}: AddPillParams): Promise<IPill> => {
   const user = getCurrentUser()
   if (!user) {
     throw new Error('User not logged in')
@@ -118,7 +120,7 @@ const addPill = async ({name, description, duration, moment, days, imageUrl, dat
     name,
     description,
     duration,
-    moment,
+    moments,
     days,
     date,
     imageUrl,

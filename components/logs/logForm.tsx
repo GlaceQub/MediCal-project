@@ -116,10 +116,10 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
               variant="outline"
               onPress={showDatepicker}
               style={[styles.button, {backgroundColor: colors.background, borderColor: colors.border}]}>
-              <FontAwesome5 name="calendar-alt" size={20}/>
+              <FontAwesome5 name="calendar-alt" size={20} />
             </Button>
             <Input style={{flex: 1}}>
-              <InputField value={date.toLocaleDateString('en-GB')} placeholder="Select date" editable={false}/>
+              <InputField value={date.toLocaleDateString('en-GB')} placeholder="Select date" editable={false} />
             </Input>
           </View>
         </View>
@@ -130,15 +130,17 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
             <TextareaInput style={{textAlignVertical: 'top'}} placeholder="Extra information about you complaint..." />
           </Textarea>
         </View>
-        <Button onPress={handleCreateUpdateLog}>
-          <ButtonText>{id ? 'Update log' : 'Add log'}</ButtonText>
-        </Button>
-        <Button
-          onPress={router.back}
-          variant="outline"
-          style={[styles.button, {backgroundColor: colors.card, borderColor: colors.border}]}>
-          <ButtonText>Cancel</ButtonText>
-        </Button>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, gap: 20}}>
+          <Button onPress={handleCreateUpdateLog}>
+            <ButtonText>{id ? 'Update log' : 'Add log'}</ButtonText>
+          </Button>
+          <Button
+            onPress={router.back}
+            variant="outline"
+            style={[styles.button, {backgroundColor: colors.card, borderColor: colors.border}]}>
+            <ButtonText>Cancel</ButtonText>
+          </Button>
+        </View>
       </View>
     </>
   )

@@ -1,5 +1,4 @@
 import {FunctionComponent, useContext} from 'react'
-import AppTitle from '@/components/appTitle'
 import {FontAwesome5} from '@expo/vector-icons'
 import {ThemeContext} from '@/context/themeProvider'
 import {View} from 'react-native'
@@ -7,6 +6,7 @@ import StyledText from './styledText'
 import {StyleSheet} from 'react-native'
 import useUser from '@/hooks/useUser'
 import {Image as ImageRN} from 'react-native'
+import colorsTW from 'tailwindcss/colors'
 
 const AppHeader: FunctionComponent = () => {
   const {colors, margin, padding} = useContext(ThemeContext)
@@ -41,8 +41,8 @@ const AppHeader: FunctionComponent = () => {
           }}>
           {userName}
         </StyledText>
-        <View style={[{backgroundColor: colors.text, padding: padding.sm}, styles.userIcon]}>
-          <FontAwesome5 name="user" size={24} color={colors.background} />
+        <View style={[{backgroundColor: colorsTW.red[100], padding: padding.sm}, styles.userIcon]} className='border border-red-500'>
+          <FontAwesome5 name="user" size={24} color={colorsTW.red[500]} />
         </View>
       </View>
     </View>

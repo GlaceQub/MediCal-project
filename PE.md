@@ -137,7 +137,7 @@ Link: https://docs.expo.dev/versions/latest/sdk/camera/
 
 Deze zal gebruikt worden om een foto te kunnen maken van je medicatie.
 
-### expo-calender
+### expo-calender --> expo-Notifications
 
 Link: https://github.com/expo/expo/tree/main/packages/expo-calendar
 
@@ -171,7 +171,7 @@ Lees de [projectopgave](https://javascript.pit-graduaten.be/evaluatie/mobile/pro
 info
 over wat een native module juist is._
 
-### Supabase / Supabase Auth / Supabase Storage
+### Supabase / Supabase Auth / Supabase Storage -> Firebase
 
 Ik zal Supabase gebruiken om alle gegevens die gelogd worden op te slaan in een database, de Auth zal ik gebruiken om
 user based te kunnen inloggen en dus als gevolg dat elke user enkel zijn eigen opgeslagen logs kan bekijken. De Storage

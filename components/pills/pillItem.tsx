@@ -9,7 +9,10 @@ import {Button} from '@/components/ui/button'
 import {toDateObj} from '@/utils/dateStringToDateObj'
 import DayCircle from '@/components/pills/daysOfWeek/dayCircle'
 import IDaysOfWeek from '@/models/IDaysOfWeek'
-import { FontAwesome5 } from '@expo/vector-icons'
+import {FontAwesome5} from '@expo/vector-icons'
+import colorsTW from 'tailwindcss/colors'
+import SwipeableListItem from '../custom/swipableListItem'
+import { useDeletePill } from '@/api/pills'
 
 const daysOfWeek: Array<keyof IDaysOfWeek> = [
   'monday',
@@ -22,15 +25,13 @@ const daysOfWeek: Array<keyof IDaysOfWeek> = [
 ]
 
 const PillItem: FunctionComponent<IPill> = props => {
-  const {colors, padding} = useContext(ThemeContext)
+  const {mutate: deletePill} = useDeletePill()
+  const {colors} = useContext(ThemeContext)
   const router = useRouter()
   const width = useWindowDimensions().width
   const pill = props
-  const date = toDateObj(pill.date)
-  
-  const durationText = pill.duration
-    ? `${pill.duration} ${pill.duration === 1 ? 'day' : 'days'}`
-    : 'ongoing'
+
+  const durationText = pill.duration ? `${pill.duration} ${pill.duration === 1 ? 'day' : 'days'}` : 'ongoing'
 
   // Find the earliest next moment after now
   const now = new Date()
@@ -42,32 +43,56 @@ const PillItem: FunctionComponent<IPill> = props => {
     })
     .sort((a, b) => a.getTime() - b.getTime())
   const remainingMoments = moments.filter(m => m > now)
-  const earliestMoment = remainingMoments.length > 0
-    ? `${String(remainingMoments[0].getHours()).padStart(2, '0')}:${String(remainingMoments[0].getMinutes()).padStart(2, '0')}`
-    : `${String(moments[0].getHours()).padStart(2, '0')}:${String(moments[0].getMinutes()).padStart(2, '0')}`
+  const earliestMoment =
+    remainingMoments.length > 0
+      ? `${String(remainingMoments[0].getHours()).padStart(2, '0')}:${String(remainingMoments[0].getMinutes()).padStart(2, '0')}`
+      : `${String(moments[0].getHours()).padStart(2, '0')}:${String(moments[0].getMinutes()).padStart(2, '0')}`
 
+  const actions = [
+    {
+      icon:"pen",
+      iconColor: colors.card,
+      onPress: () => router.push(`/pills/${pill.id}`),
+      bgColor: colorsTW.blue[500],
+    },
+    {
+      icon:"trash",
+      iconColor: colors.card,
+      onPress: () => {
+        if (pill.id) deletePill(pill.id)
+      },
+      bgColor: colorsTW.red[500],
+    },
+  ]
   return (
-    <Button
-      style={[
-        styles.listItem,
-        {backgroundColor: colors.card, borderColor: hex2rgba(colors.border, 0.8)},
-        {width: width},
-      ]}
-      onPress={() => router.push(`/pills/${pill.id}`)}>
-      <View style={{flexDirection: 'column', height: '100%', flex: 1, justifyContent: 'flex-start'}}>
-        <View style={{flexDirection: 'row'}}>
-          <StyledText style={[styles.ListItemName, {color: colors.text}]}>{pill.name}</StyledText>
-          <StyledText style={[styles.ListItemDuration, {color: hex2rgba(colors.text, 0.6)}]}>{durationText}</StyledText>
-          <StyledText style={[styles.ListItemEarliestMoment, {color: hex2rgba(colors.text, 0.6)}]}>{earliestMoment}</StyledText>
+    <SwipeableListItem actionButtons={actions}>
+      <Button
+        style={[
+          styles.listItem,
+          {backgroundColor: colors.card, borderColor: colorsTW.gray[200]},
+          {width: width},
+          {borderRadius: 0},
+        ]}
+        onPress={() => router.push(`/pills/${pill.id}`)}>
+        <View style={{flexDirection: 'column', height: '100%', flex: 1, justifyContent: 'flex-start'}}>
+          <View style={{flexDirection: 'row'}}>
+            <StyledText style={[styles.ListItemName, {color: colors.text}]}>{pill.name}</StyledText>
+            <StyledText style={[styles.ListItemDuration, {color: hex2rgba(colors.text, 0.6)}]}>
+              {durationText}
+            </StyledText>
+            <StyledText style={[styles.ListItemEarliestMoment, {color: hex2rgba(colors.text, 0.6)}]}>
+              {earliestMoment}
+            </StyledText>
+          </View>
+          <View style={{flexDirection: 'row', gap: 4, marginVertical: 'auto'}}>
+            {daysOfWeek.map(day => (
+              <DayCircle key={day} day={day} isSelected={!!pill.days?.[day]} />
+            ))}
+            <FontAwesome5 name="chevron-right" color={hex2rgba(colors.text, 0.6)} style={styles.ListItemChevron} />
+          </View>
         </View>
-        <View style={{flexDirection: 'row', gap: 4, marginVertical: 'auto'}}>
-          {daysOfWeek.map(day => (
-            <DayCircle key={day} day={day} isSelected={!!pill.days?.[day]} />
-          ))}
-          <FontAwesome5 name="chevron-right" color={hex2rgba(colors.text, 0.6)} style={styles.ListItemChevron} />
-        </View>
-      </View>
-    </Button>
+      </Button>
+    </SwipeableListItem>
   )
 }
 
@@ -94,7 +119,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 14,
     fontWeight: 'bold',
-    
   },
   ListItemChevron: {
     fontSize: 20,

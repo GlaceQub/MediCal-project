@@ -1,4 +1,4 @@
-import {FunctionComponent, useContext} from 'react'
+import {FunctionComponent, useContext, useState} from 'react'
 import {View} from 'react-native'
 import {Input, InputField, InputSlot} from '@/components/ui/input'
 import {StyleSheet} from 'react-native'
@@ -15,8 +15,10 @@ interface FilterProps {
 const Filter: FunctionComponent<FilterProps> = ({ itemType, onFilterChange }) => {
   const {colors} = useContext(ThemeContext)
   const router = useRouter()
+  const [filter, setFilter] = useState('')
 
   const handleFilterChange = (value: string) => {
+    setFilter(value)
     onFilterChange(value)
   }
 
@@ -26,7 +28,7 @@ const Filter: FunctionComponent<FilterProps> = ({ itemType, onFilterChange }) =>
         <InputSlot>
           <FontAwesome5 name="search" size={18} style={styles.icon} />
         </InputSlot>
-        <InputField style={{fontSize: 16}} type="text" onChangeText={handleFilterChange}/>
+        <InputField value={filter} style={{fontSize: 16}} type="text" onChangeText={handleFilterChange}/>
       </Input>
       <Button
         size="md"

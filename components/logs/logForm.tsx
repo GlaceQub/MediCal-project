@@ -27,7 +27,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
   const [bodypart, setBodypart] = useState('')
   const [complaint, setComplaint] = useState('')
   const [extraInformation, setExtraInformation] = useState('')
-  const [pain, setPain] = useState(0)
+  const [pain, setPain] = useState(1)
   const [date, setDate] = useState(new Date())
 
   const [showDP, setShowDP] = useState(false)
@@ -51,7 +51,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
       setBodypart(log.bodypart ?? '')
       setComplaint(log.complaint ?? '')
       setExtraInformation(log.extraInformation ?? '')
-      setPain(log.pain ?? 0)
+      setPain(log.pain ?? 1)
       setDate(toDateObj(log.date))
     }
   }, [log])
@@ -61,7 +61,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
 
     if (!bodypart.trim()) errors.push('Bodypart is required.')
     if (!complaint.trim()) errors.push('Complaint is required.')
-    if (isNaN(pain) || pain < 0 || pain > 10) errors.push('Pain must be a number between 0 and 10.')
+    if (isNaN(pain) || pain < 1 || pain > 10) errors.push('Pain must be a number between 1 and 10.')
     if (!date || isNaN(date.getTime())) errors.push('Date is required.')
     if (date && date > new Date()) errors.push('Date cannot be in the future.')
 

@@ -1,3 +1,4 @@
+import {cancelPillNotifications} from '@/api/notifications'
 import {defaultSpacing, ThemeContext} from '@/context/themeProvider'
 import {FunctionComponent, useContext} from 'react'
 import {useRouter} from 'expo-router'
@@ -12,7 +13,7 @@ import IDaysOfWeek from '@/models/IDaysOfWeek'
 import {FontAwesome5} from '@expo/vector-icons'
 import colorsTW from 'tailwindcss/colors'
 import SwipeableListItem from '../custom/swipableListItem'
-import { useDeletePill } from '@/api/pills'
+import {useDeletePill} from '@/api/pills'
 
 const daysOfWeek: Array<keyof IDaysOfWeek> = [
   'monday',
@@ -43,22 +44,29 @@ const PillItem: FunctionComponent<IPill> = props => {
     })
     .sort((a, b) => a.getTime() - b.getTime())
   const remainingMoments = moments.filter(m => m > now)
+  const isExpired = !pill.notificationIds || pill.notificationIds.length === 0
+
   const earliestMoment =
-    remainingMoments.length > 0
-      ? `${String(remainingMoments[0].getHours()).padStart(2, '0')}:${String(remainingMoments[0].getMinutes()).padStart(2, '0')}`
-      : `${String(moments[0].getHours()).padStart(2, '0')}:${String(moments[0].getMinutes()).padStart(2, '0')}`
+    isExpired
+      ? 'expired'
+      : remainingMoments.length > 0
+        ? `${String(remainingMoments[0].getHours()).padStart(2, '0')}:${String(remainingMoments[0].getMinutes()).padStart(2, '0')}`
+        : `${String(moments[0].getHours()).padStart(2, '0')}:${String(moments[0].getMinutes()).padStart(2, '0')}`
 
   const actions = [
     {
-      icon:"pen",
+      icon: 'pen',
       iconColor: colors.card,
       onPress: () => router.push(`/pills/${pill.id}`),
       bgColor: colorsTW.blue[500],
     },
     {
-      icon:"trash",
+      icon: 'trash',
       iconColor: colors.card,
-      onPress: () => {
+      onPress: async () => {
+        if (pill.notificationIds?.length) {
+          await cancelPillNotifications(pill.notificationIds)
+        }
         if (pill.id) deletePill(pill.id)
       },
       bgColor: colorsTW.red[500],
@@ -75,12 +83,19 @@ const PillItem: FunctionComponent<IPill> = props => {
         ]}
         onPress={() => router.push(`/pills/${pill.id}`)}>
         <View style={{flexDirection: 'column', height: '100%', flex: 1, justifyContent: 'flex-start'}}>
-          <View style={{flexDirection: 'row'}}>
-            <StyledText style={[styles.ListItemName, {color: colors.text}]}>{pill.name}</StyledText>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <StyledText style={[styles.ListItemName, {color: colors.text}]}>
+              {pill.name}
+            </StyledText>
             <StyledText style={[styles.ListItemDuration, {color: hex2rgba(colors.text, 0.6)}]}>
               {durationText}
             </StyledText>
-            <StyledText style={[styles.ListItemEarliestMoment, {color: hex2rgba(colors.text, 0.6)}]}>
+            <StyledText
+              style={[
+                styles.ListItemEarliestMoment,
+                {color: isExpired ? colorsTW.red[500] : hex2rgba(colors.text, 0.6)},
+                isExpired && {fontStyle: 'italic'},
+              ]}>
               {earliestMoment}
             </StyledText>
           </View>

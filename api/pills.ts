@@ -82,7 +82,7 @@ const getPills = async (): Promise<IPill[]> => {
   return getDataFromQuerySnapshot(querySnapshot, 'id')
 }
 
-const getPill = async (id: string): Promise<IPill> => {
+export const getPill = async (id: string): Promise<IPill> => {
   const user = getCurrentUser()
   if (!user) {
     throw new Error('User not logged in')
@@ -108,9 +108,19 @@ interface AddPillParams {
   days: IDaysOfWeek // days of the week when the pill should be taken
   date: Date // start date for the pill
   imageUrl?: string // URL of the pill image
+  notificationIds?: string[] // IDs of scheduled notifications for this pill
 }
 
-const addPill = async ({name, description, duration, moments, days, imageUrl, date}: AddPillParams): Promise<IPill> => {
+const addPill = async ({
+  name,
+  description,
+  duration,
+  moments,
+  days,
+  imageUrl,
+  date,
+  notificationIds = []
+}: AddPillParams): Promise<IPill> => {
   const user = getCurrentUser()
   if (!user) {
     throw new Error('User not logged in')
@@ -125,6 +135,7 @@ const addPill = async ({name, description, duration, moments, days, imageUrl, da
     date,
     imageUrl,
     userId: user.uid,
+    notificationIds,
   })
 
   const pill = await documentData<IPill>('pills', docRef.id, 'id')

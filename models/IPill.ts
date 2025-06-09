@@ -10,6 +10,7 @@ interface IPill {
   days: IDaysOfWeek // days of the week when the pill should be taken
   userId?: string // user ID of the person who created the pill
   imageUrl?: string // URL of the pill image
+  notificationIds?: string[] // IDs of scheduled notifications for this pill
 }
 
 export default IPill

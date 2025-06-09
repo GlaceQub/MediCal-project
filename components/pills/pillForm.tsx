@@ -1,7 +1,8 @@
-import {useAddPill, useGetPill, useUpdatePill} from '@/api/pills'
+import {scheduleNextPillNotification, cancelPillNotifications} from '@/api/notifications'
+import {useAddPill, useGetPill, useUpdatePill, useDeletePill} from '@/api/pills'
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react'
 import StyledText from '@/components/styledText'
-import {useWindowDimensions, View} from 'react-native'
+import {useWindowDimensions, View, ActivityIndicator} from 'react-native'
 import {Button, ButtonText} from '@/components/ui/button'
 import {Input, InputField} from '@/components/ui/input'
 import {useRouter} from 'expo-router'
@@ -14,6 +15,7 @@ import IDaysOfWeek from '@/models/IDaysOfWeek'
 import {Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel} from '../ui/checkbox'
 import {CheckIcon} from '../ui/icon'
 import getDayAbbreviation from '@/utils/dayAbbriviation'
+import colorsTW from 'tailwindcss/colors'
 
 interface pillFormProps {
   id?: string
@@ -25,13 +27,14 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
 
   const {mutate: addPill} = useAddPill()
   const {mutate: updatePill} = useUpdatePill()
+  const {mutate: deletePill} = useDeletePill()
   const {data: pill} = useGetPill(id ?? '')
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [duration, setDuration] = useState<number>(0) // default duration of 0 days (always)
   const [date, setDate] = useState<Date>(new Date()) // default to current date
-  const [moments, setMoments] = useState<{hour: number, minute: number}[]>([])
+  const [moments, setMoments] = useState<{hour: number; minute: number}[]>([])
   const [imageUrl, setImageUrl] = useState<string>('')
   const [days, setDays] = useState<IDaysOfWeek>({
     monday: false,
@@ -45,15 +48,14 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
 
   const [showDP, setShowDP] = useState(false)
   const [mode, setModeDP] = useState<'date' | 'time'>('date')
+  const [isSaving, setIsSaving] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const router = useRouter()
 
   const onChangeDP = (event: any, selectedDate?: Date) => {
     setShowDP(false)
     if (mode === 'time' && selectedDate) {
-      setMoments(prev => [
-        ...prev,
-        { hour: selectedDate.getHours(), minute: selectedDate.getMinutes() }
-      ])
+      setMoments(prev => [...prev, {hour: selectedDate.getHours(), minute: selectedDate.getMinutes()}])
     } else if (mode === 'date' && selectedDate) {
       setDate(selectedDate)
     }
@@ -81,11 +83,9 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
       setMoments(
         pill.moments
           ? pill.moments.map((m: any) =>
-              typeof m === 'string'
-                ? { hour: Number(m.split(':')[0]), minute: Number(m.split(':')[1]) }
-                : m
+              typeof m === 'string' ? {hour: Number(m.split(':')[0]), minute: Number(m.split(':')[1])} : m,
             )
-          : []
+          : [],
       )
       setImageUrl(pill.imageUrl ?? '')
       setDays(
@@ -102,16 +102,29 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
     }
   }, [pill])
 
-  const handleCreateUpdatePill = () => {
-    // Check required fields and at least one day selected
-    const atLeastOneDay = Object.values(days).some(Boolean)
-    if (!name || !description || moments.length === 0 || !atLeastOneDay || !date) {
-      alert('Please fill in all required fields and select at least one day.')
+  const handleCreateUpdatePill = async () => {
+    setIsSaving(true)
+    const errors: string[] = []
+
+    if (!name.trim()) errors.push('Name is required.')
+    if (!description.trim()) errors.push('Description is required.')
+    if (!date || isNaN(date.getTime())) errors.push('Start date is required.')
+    if (date && date > new Date()) errors.push('Start date cannot be in the future.')
+    if (!Number.isInteger(duration) || duration < 0) errors.push('Duration must be positive.')
+    if (moments.length === 0) errors.push('At least one intake moment is required.')
+    if (!Object.values(days).some(Boolean)) errors.push('At least one day of the week must be selected.')
+
+    if (errors.length > 0) {
+      alert(errors.join('\n'))
+      setIsSaving(false)
       return
     }
 
     if (id) {
-      updatePill({
+      if (pill?.notificationIds?.length) {
+        await cancelPillNotifications(pill.notificationIds)
+      }
+      const newNotificationId = await scheduleNextPillNotification({
         id,
         name,
         description,
@@ -120,9 +133,32 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
         moments,
         days,
         imageUrl,
+        notificationIds: [],
       })
+      updatePill(
+        {
+          id,
+          name,
+          description,
+          duration,
+          date,
+          moments,
+          days,
+          imageUrl,
+          notificationIds: newNotificationId ? [newNotificationId] : [],
+        },
+        {
+          onSuccess: () => {
+            setTimeout(() => {
+              setIsSaving(false)
+              router.back()
+            }, 1000)
+          },
+          onError: () => setIsSaving(false),
+        },
+      )
     } else {
-      addPill({
+      const newNotificationId = await scheduleNextPillNotification({
         name,
         description,
         duration,
@@ -130,9 +166,46 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
         moments,
         days,
         imageUrl,
+        notificationIds: [],
       })
+      addPill(
+        {
+          name,
+          description,
+          duration,
+          date,
+          moments,
+          days,
+          imageUrl,
+          notificationIds: newNotificationId ? [newNotificationId] : [],
+        },
+        {
+          onSuccess: () => {
+            setIsSaving(false)
+            router.back()
+          },
+          onError: () => setIsSaving(false),
+        },
+      )
     }
-    router.back()
+  }
+
+  const handleDeletePill = async () => {
+    setIsDeleting(true)
+    if (!id) {
+      setIsDeleting(false)
+      return
+    }
+    if (pill?.notificationIds?.length) {
+      await cancelPillNotifications(pill.notificationIds)
+    }
+    deletePill(id, {
+      onSuccess: () => {
+        setIsDeleting(false)
+        router.back()
+      },
+      onError: () => setIsDeleting(false),
+    })
   }
 
   const daysOfWeek: Array<keyof IDaysOfWeek> = [
@@ -191,29 +264,37 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
         </View>
         <View>
           <StyledText style={styles.inputText}>Moments of intake *</StyledText>
-          {moments.map((moment, index) => (
-            <View key={index} style={{flexDirection: 'row', alignItems: 'center', marginBottom: 8}}>
-              <Input style={{flex: 1}}>
-                <InputField
-                  value={
-                    `${String(moment.hour).padStart(2, '0')}:${String(moment.minute).padStart(2, '0')}`
-                  }
-                  editable={false}
-                  placeholder="Select time"
-                />
-              </Input>
-              <Button
-                variant="outline"
-                style={[styles.button, {backgroundColor: colors.background, borderColor: colors.border}, {marginLeft: 8}]}
-                onPress={() => {
-                  const newMoments = [...moments]
-                  newMoments.splice(index, 1)
-                  setMoments(newMoments)
-                }}>
-                <FontAwesome5 name="trash" size={16} color={colors.text} />
-              </Button>
-            </View>
-          ))}
+          <View
+            style={{
+              maxHeight: 4 * 48, // assuming each row is about 48px high
+              overflowY: '',
+            }}>
+            {moments.map((moment, index) => (
+              <View key={index} style={{flexDirection: 'row', alignItems: 'center', marginBottom: 8}}>
+                <Input style={{flex: 1}}>
+                  <InputField
+                    value={`${String(moment.hour).padStart(2, '0')}:${String(moment.minute).padStart(2, '0')}`}
+                    editable={false}
+                    placeholder="Select time"
+                  />
+                </Input>
+                <Button
+                  variant="outline"
+                  style={[
+                    styles.button,
+                    {backgroundColor: colors.background, borderColor: colors.border},
+                    {marginLeft: 8},
+                  ]}
+                  onPress={() => {
+                    const newMoments = [...moments]
+                    newMoments.splice(index, 1)
+                    setMoments(newMoments)
+                  }}>
+                  <FontAwesome5 name="trash" size={16} color={colors.text} />
+                </Button>
+              </View>
+            ))}
+          </View>
           <Button
             variant="outline"
             style={[
@@ -246,15 +327,35 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
           </View>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, gap: 20}}>
-          <Button onPress={handleCreateUpdatePill}>
-            <ButtonText>{id ? 'Update medication' : 'Add medication'}</ButtonText>
+          <Button onPress={handleCreateUpdatePill} disabled={isSaving || isDeleting}>
+            {isSaving ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <ButtonText>{id ? 'Update medication' : 'Add medication'}</ButtonText>
+            )}
           </Button>
           <Button
             onPress={router.back}
             variant="outline"
-            style={[styles.button, {backgroundColor: colors.card, borderColor: colors.border}]}>
+            style={[styles.button, {backgroundColor: colors.card, borderColor: colors.border}]}
+            disabled={isSaving || isDeleting}>
             <ButtonText>Cancel</ButtonText>
           </Button>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+          {id && (
+            <Button
+              onPress={handleDeletePill}
+              variant="outline"
+              style={[styles.button, {backgroundColor: colorsTW.red[500], borderColor: colorsTW.red[700]}]}
+              disabled={isDeleting || isSaving}>
+              {isDeleting ? (
+                <ActivityIndicator color={colorsTW.white} />
+              ) : (
+                <ButtonText style={{color: colorsTW.white}}>Delete</ButtonText>
+              )}
+            </Button>
+          )}
         </View>
       </View>
     </>

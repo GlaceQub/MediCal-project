@@ -1,7 +1,7 @@
-import {useAddLog, useGetLog, useUpdateLog} from '@/api/logs'
+import {useAddLog, useGetLog, useUpdateLog, useDeleteLog} from '@/api/logs'
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react'
 import StyledText from '@/components/styledText'
-import {View} from 'react-native'
+import {View, ActivityIndicator} from 'react-native'
 import {Button, ButtonText} from '@/components/ui/button'
 import {Input, InputField} from '@/components/ui/input'
 import {useRouter} from 'expo-router'
@@ -21,6 +21,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
 
   const {mutate: addLog} = useAddLog()
   const {mutate: updateLog} = useUpdateLog()
+  const {mutate: deleteLog} = useDeleteLog()
   const {data: log} = useGetLog(id ?? '')
 
   const [bodypart, setBodypart] = useState('')
@@ -30,6 +31,8 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
   const [date, setDate] = useState(new Date())
 
   const [showDP, setShowDP] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const router = useRouter()
 
   const onChangeDP = (event: any, selectedDate?: Date) => {
@@ -53,30 +56,73 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
     }
   }, [log])
 
-  const handleCreateUpdateLog = () => {
-    if (!bodypart || !complaint || pain < 0 || pain > 10 || !date) {
-      alert('Please fill in all required fields correctly.')
+  const handleCreateUpdateLog = async () => {
+    const errors: string[] = []
+
+    if (!bodypart.trim()) errors.push('Bodypart is required.')
+    if (!complaint.trim()) errors.push('Complaint is required.')
+    if (isNaN(pain) || pain < 0 || pain > 10) errors.push('Pain must be a number between 0 and 10.')
+    if (!date || isNaN(date.getTime())) errors.push('Date is required.')
+    if (date && date > new Date()) errors.push('Date cannot be in the future.')
+
+    if (errors.length > 0) {
+      alert(errors.join('\n'))
       return
     }
+
+    setIsSaving(true)
     if (id) {
-      updateLog({
-        id,
-        bodypart,
-        complaint,
-        extraInformation: extraInformation || null,
-        pain,
-        date,
-      })
+      updateLog(
+        {
+          id,
+          bodypart,
+          complaint,
+          extraInformation: extraInformation || null,
+          pain,
+          date,
+        },
+        {
+          onSuccess: () => {
+            setTimeout(() => {
+              setIsSaving(false)
+              router.back()
+            }, 1000)
+          },
+          onError: () => setIsSaving(false),
+        }
+      )
     } else {
-      addLog({
-        bodypart,
-        complaint,
-        extraInformation: extraInformation || null,
-        pain,
-        date,
-      })
+      addLog(
+        {
+          bodypart,
+          complaint,
+          extraInformation: extraInformation || null,
+          pain,
+          date,
+        },
+        {
+          onSuccess: () => {
+            setTimeout(() => {
+              setIsSaving(false)
+              router.back()
+            }, 1000)
+          },
+          onError: () => setIsSaving(false),
+        }
+      )
     }
-    router.back()
+  }
+
+  const handleDeleteLog = async () => {
+    if (!id) return
+    setIsDeleting(true)
+    try {
+      deleteLog(id, {
+        onSuccess: () => router.back(),
+      })
+    } finally {
+      setIsDeleting(false)
+    }
   }
 
   return (
@@ -98,7 +144,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
           </Input>
         </View>
         <View>
-          <StyledText style={styles.inputText}>Pain Level *</StyledText>
+          <StyledText style={styles.inputText}>Pain Level (between 0 and 10) *</StyledText>
           <Input>
             <InputField
               value={pain.toString()}
@@ -127,20 +173,45 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
         <View>
           <StyledText style={styles.inputText}>Extra Information</StyledText>
           <Textarea size="md">
-            <TextareaInput style={{textAlignVertical: 'top'}} placeholder="Extra information about you complaint..." />
+            <TextareaInput
+              style={{textAlignVertical: 'top'}}
+              value={extraInformation}
+              onChangeText={setExtraInformation}
+              placeholder="Extra information about you complaint..."
+            />
           </Textarea>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, gap: 20}}>
-          <Button onPress={handleCreateUpdateLog}>
-            <ButtonText>{id ? 'Update log' : 'Add log'}</ButtonText>
+          <Button onPress={handleCreateUpdateLog} disabled={isSaving || isDeleting}>
+            {isSaving ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <ButtonText>{id ? 'Update log' : 'Add log'}</ButtonText>
+            )}
           </Button>
           <Button
             onPress={router.back}
             variant="outline"
-            style={[styles.button, {backgroundColor: colors.card, borderColor: colors.border}]}>
+            style={[styles.button, {backgroundColor: colors.card, borderColor: colors.border}]}
+            disabled={isSaving || isDeleting}>
             <ButtonText>Cancel</ButtonText>
           </Button>
         </View>
+        {id && (
+          <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 10}}>
+            <Button
+              onPress={handleDeleteLog}
+              variant="outline"
+              style={[styles.button, {backgroundColor: '#ef4444', borderColor: '#b91c1c'}]}
+              disabled={isDeleting || isSaving}>
+              {isDeleting ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <ButtonText style={{color: '#fff'}}>Delete</ButtonText>
+              )}
+            </Button>
+          </View>
+        )}
       </View>
     </>
   )

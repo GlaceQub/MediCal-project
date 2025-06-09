@@ -131,7 +131,7 @@ _Bespreek hier minstens twee native modules die je verwerkt in je applicatie.
 Lees de [projectopgave](https://javascript.pit-graduaten.be/evaluatie/mobile/project.html#native-modules) voor meer info
 over wat een native module juist is._
 
-### expo-camera
+### expo-camera --> expo-image-picker
 
 Link: https://docs.expo.dev/versions/latest/sdk/camera/
 

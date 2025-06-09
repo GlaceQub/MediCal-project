@@ -2,7 +2,7 @@ import {scheduleNextPillNotification, cancelPillNotifications} from '@/api/notif
 import {useAddPill, useGetPill, useUpdatePill, useDeletePill} from '@/api/pills'
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react'
 import StyledText from '@/components/styledText'
-import {useWindowDimensions, View, ActivityIndicator} from 'react-native'
+import {useWindowDimensions, View, ActivityIndicator, Image, Modal, Pressable, ScrollView} from 'react-native'
 import {Button, ButtonText} from '@/components/ui/button'
 import {Input, InputField} from '@/components/ui/input'
 import {useRouter} from 'expo-router'
@@ -16,6 +16,7 @@ import {Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel} from '../ui/ch
 import {CheckIcon} from '../ui/icon'
 import getDayAbbreviation from '@/utils/dayAbbriviation'
 import colorsTW from 'tailwindcss/colors'
+import * as ImagePicker from 'expo-image-picker'
 
 interface pillFormProps {
   id?: string
@@ -50,6 +51,7 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
   const [mode, setModeDP] = useState<'date' | 'time'>('date')
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [showImagePreview, setShowImagePreview] = useState(false)
   const router = useRouter()
 
   const onChangeDP = (event: any, selectedDate?: Date) => {
@@ -208,6 +210,21 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
     })
   }
 
+  const handlePickImage = async () => {
+    const {status} = await ImagePicker.requestCameraPermissionsAsync()
+    if (status !== 'granted') {
+      alert('Camera permission is required!')
+      return
+    }
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ['images'],
+      quality: 0.7,
+    })
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImageUrl(result.assets[0].uri) // Save local file URI
+    }
+  }
+
   const daysOfWeek: Array<keyof IDaysOfWeek> = [
     'monday',
     'tuesday',
@@ -223,7 +240,7 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
       <StyledText style={styles.title} className="text-center">
         {id ? 'Update medication' : 'Create medication'}
       </StyledText>
-      <View style={{gap: 16}} className="p-4">
+      <ScrollView contentContainerStyle={{gap: 16, padding: 16}}>
         <View>
           <StyledText style={styles.inputText}>Name *</StyledText>
           <Input>
@@ -326,7 +343,37 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
             ))}
           </View>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, gap: 20}}>
+        <View>
+          <StyledText style={styles.inputText}>Picture of medication</StyledText>
+          <View style={{flexDirection: 'row', alignItems: 'center', gap: 12}}>
+            <Button
+              variant="outline"
+              style={[
+                styles.button,
+                {
+                  backgroundColor: colors.background,
+                  borderColor: colors.border,
+                  flex: 1, // Always expand
+                  paddingHorizontal: 18,
+                  paddingVertical: 6,
+                  minHeight: 36,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+              ]}
+              onPress={handlePickImage}>
+              <FontAwesome5 name="camera" size={16} />
+              <ButtonText style={{marginLeft: 8}}>Open camera</ButtonText>
+            </Button>
+            {imageUrl ? (
+              <Button variant='outline' onPress={() => setShowImagePreview(true)} style={{padding: 6, borderColor: colors.border, backgroundColor: colors.background}}>
+                <FontAwesome5 name="eye" size={20} color={colors.text} />
+              </Button>
+            ) : null}
+          </View>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 0, gap: 20}}>
           <Button onPress={handleCreateUpdatePill} disabled={isSaving || isDeleting}>
             {isSaving ? (
               <ActivityIndicator color="#fff" />
@@ -357,7 +404,30 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
             </Button>
           )}
         </View>
-      </View>
+      </ScrollView>
+      <Modal
+        visible={showImagePreview}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowImagePreview(false)}>
+        <Pressable
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={() => setShowImagePreview(false)}>
+          <Image
+            source={{uri: imageUrl}}
+            style={{width: 300, height: 300, borderRadius: 12, backgroundColor: '#fff'}}
+            resizeMode="contain"
+          />
+          <Button style={{marginTop: 16}} onPress={() => setShowImagePreview(false)} variant="outline">
+            <ButtonText>Close</ButtonText>
+          </Button>
+        </Pressable>
+      </Modal>
     </>
   )
 }

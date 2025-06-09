@@ -162,7 +162,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
               variant="outline"
               onPress={showDatepicker}
               style={[styles.button, {backgroundColor: colors.background, borderColor: colors.border}]}>
-              <FontAwesome5 name="calendar-alt" size={20} />
+              <FontAwesome5 name="calendar-alt" size={20} style={{color: colors.text}} />
             </Button>
             <Input style={{flex: 1}}>
               <InputField value={date.toLocaleDateString('en-GB')} placeholder="Select date" editable={false} />
@@ -205,9 +205,9 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
               style={[styles.button, {backgroundColor: '#ef4444', borderColor: '#b91c1c'}]}
               disabled={isDeleting || isSaving}>
               {isDeleting ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color={colors.text} />
               ) : (
-                <ButtonText style={{color: '#fff'}}>Delete</ButtonText>
+                <ButtonText style={{color: colors.text}}>Delete</ButtonText>
               )}
             </Button>
           </View>

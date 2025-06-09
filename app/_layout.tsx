@@ -5,7 +5,7 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
 import { useEffect } from 'react'
 import * as Notifications from 'expo-notifications'
-import {registerForPushNotificationsAsync, scheduleNextPillNotification} from '@/api/notifications'
+import {registerForPushNotificationsAsync, scheduleNextPillNotification, setNotificationHandler} from '@/api/notifications'
 import { getPill } from '@/api/pills'
 import useUser from '@/hooks/useUser'
 import { Platform } from 'react-native'
@@ -27,6 +27,7 @@ function AppLayout() {
   useEffect(() => {
     if (user) {
       registerForPushNotificationsAsync()
+      setNotificationHandler()
     }
   }, [user])
 

@@ -26,7 +26,7 @@ const Filter: FunctionComponent<FilterProps> = ({ itemType, onFilterChange }) =>
     <View style={styles.container}>
       <Input variant="rounded" style={[styles.input, {borderColor: colors.border}]}>
         <InputSlot>
-          <FontAwesome5 name="search" size={18} style={styles.icon} />
+          <FontAwesome5 name="search" size={18} style={styles.icon} color={colors.text} />
         </InputSlot>
         <InputField value={filter} style={{fontSize: 16}} type="text" onChangeText={handleFilterChange}/>
       </Input>

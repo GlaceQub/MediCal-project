@@ -260,7 +260,7 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
               variant="outline"
               onPress={showDatepicker}
               style={[styles.button, {backgroundColor: colors.background, borderColor: colors.border}]}>
-              <FontAwesome5 name="calendar-alt" size={20} />
+              <FontAwesome5 name="calendar-alt" size={20} color={colors.text} />
             </Button>
             <Input style={{flex: 1}}>
               <InputField value={date.toLocaleDateString('en-GB')} placeholder="Select date" editable={false} />
@@ -320,7 +320,7 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
               {alignSelf: 'flex-start'},
             ]}
             onPress={showTimepicker}>
-            <FontAwesome5 name="plus" size={16} />
+            <FontAwesome5 name="plus" size={16} color={colors.text} />
             <ButtonText style={{marginLeft: 8}}>Add intake moment</ButtonText>
           </Button>
         </View>
@@ -353,7 +353,7 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
                 {
                   backgroundColor: colors.background,
                   borderColor: colors.border,
-                  flex: 1, // Always expand
+                  flex: 1,
                   paddingHorizontal: 18,
                   paddingVertical: 6,
                   minHeight: 36,
@@ -363,11 +363,14 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
                 },
               ]}
               onPress={handlePickImage}>
-              <FontAwesome5 name="camera" size={16} />
+              <FontAwesome5 name="camera" size={16} color={colors.text} />
               <ButtonText style={{marginLeft: 8}}>Open camera</ButtonText>
             </Button>
             {imageUrl ? (
-              <Button variant='outline' onPress={() => setShowImagePreview(true)} style={{padding: 6, borderColor: colors.border, backgroundColor: colors.background}}>
+              <Button
+                variant='outline'
+                onPress={() => setShowImagePreview(true)}
+                style={{padding: 6, borderColor: colors.border, backgroundColor: colors.background}}>
                 <FontAwesome5 name="eye" size={20} color={colors.text} />
               </Button>
             ) : null}

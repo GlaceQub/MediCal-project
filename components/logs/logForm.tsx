@@ -11,6 +11,7 @@ import {FontAwesome5} from '@expo/vector-icons'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import {StyleSheet} from 'react-native'
 import {ThemeContext} from '@/context/themeProvider'
+import colorsTW from 'tailwindcss/colors'
 
 interface logFormProps {
   id?: string
@@ -184,7 +185,7 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
         <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, gap: 20}}>
           <Button onPress={handleCreateUpdateLog} disabled={isSaving || isDeleting}>
             {isSaving ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color={colorsTW.white} />
             ) : (
               <ButtonText>{id ? 'Update log' : 'Add log'}</ButtonText>
             )}
@@ -202,12 +203,12 @@ const LogForm: FunctionComponent<logFormProps> = ({id}) => {
             <Button
               onPress={handleDeleteLog}
               variant="outline"
-              style={[styles.button, {backgroundColor: '#ef4444', borderColor: '#b91c1c'}]}
+              style={[styles.button, {backgroundColor: colorsTW.red[500], borderColor: colorsTW.red[700]}]}
               disabled={isDeleting || isSaving}>
               {isDeleting ? (
-                <ActivityIndicator color={colors.text} />
+                <ActivityIndicator color={colorsTW.white} />
               ) : (
-                <ButtonText style={{color: colors.text}}>Delete</ButtonText>
+                <ButtonText style={{color: colorsTW.white}}>Delete</ButtonText>
               )}
             </Button>
           </View>

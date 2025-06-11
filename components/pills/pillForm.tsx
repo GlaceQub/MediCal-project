@@ -379,7 +379,7 @@ const PillForm: FunctionComponent<pillFormProps> = ({id}) => {
         <View style={{flexDirection: 'row', justifyContent: 'flex-end', marginTop: 0, gap: 20}}>
           <Button onPress={handleCreateUpdatePill} disabled={isSaving || isDeleting}>
             {isSaving ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color={colorsTW.white} />
             ) : (
               <ButtonText>{id ? 'Update medication' : 'Add medication'}</ButtonText>
             )}

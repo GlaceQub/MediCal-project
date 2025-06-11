@@ -3,13 +3,16 @@ import ThemeProvider from '@/context/themeProvider'
 import {Stack} from 'expo-router'
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import { useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import * as Notifications from 'expo-notifications'
 import {registerForPushNotificationsAsync, scheduleNextPillNotification, setNotificationHandler} from '@/api/notifications'
 import { getPill } from '@/api/pills'
 import useUser from '@/hooks/useUser'
-import { Platform } from 'react-native'
+import { Platform, View, Text } from 'react-native'
 import { useUpdatePill } from '@/api/pills'
+import NetInfo from '@react-native-community/netinfo'
+import {ThemeContext} from '@/context/themeProvider'
+import StyledText from '@/components/styledText'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,9 +23,30 @@ const queryClient = new QueryClient({
   },
 })
 
+function NoInternetScreen() {
+  const {colors} = useContext(ThemeContext)
+
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background}}>
+      <StyledText style={{fontSize: 20, color: colors.text}}>No Internet Connection</StyledText>
+      <StyledText style={{fontSize: 16, color: colors.text, marginTop: 10}}>
+        Internet connection is required to use this app.
+      </StyledText>
+    </View>
+  )
+}
+
 function AppLayout() {
   const user = useUser()
   const { mutate: updatePill } = useUpdatePill()
+  const [isConnected, setIsConnected] = useState(true)
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      setIsConnected(!!state.isConnected)
+    })
+    return () => unsubscribe()
+  }, [])
 
   useEffect(() => {
     if (user) {
@@ -63,6 +87,8 @@ function AppLayout() {
     })
     return () => subscription.remove()
   }, [updatePill])
+
+  if (!isConnected) return <NoInternetScreen />
 
   return (
     <Stack>

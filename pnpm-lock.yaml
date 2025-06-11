@@ -65,6 +65,9 @@ importers:
       '@react-native-community/datetimepicker':
         specifier: ^8.4.1
         version: 8.4.1(expo@52.0.46(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@expo/metro-runtime@4.0.1(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1)))(react-native-webview@13.12.5(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1)
+      '@react-native-community/netinfo':
+        specifier: 11.4.1
+        version: 11.4.1(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))
       '@react-native-firebase/app':
         specifier: ^22.2.0
         version: 22.2.0(expo@52.0.46(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@expo/metro-runtime@4.0.1(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1)))(react-native-webview@13.12.5(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1)
@@ -1807,6 +1810,11 @@ packages:
         optional: true
       react-native-windows:
         optional: true
+
+  '@react-native-community/netinfo@11.4.1':
+    resolution: {integrity: sha512-B0BYAkghz3Q2V09BF88RA601XursIEA111tnc2JOaN7axJWmNefmfjZqw/KdSxKZp7CZUuPpjBmz/WCR9uaHYg==}
+    peerDependencies:
+      react-native: '>=0.59'
 
   '@react-native-firebase/app@22.2.0':
     resolution: {integrity: sha512-zw7KRo1nZwj9+ED6SHgl5/ioRqcA8RwqBuiGWx5Nrr4JrhbLpaihfPuDsGcn0LvEO5knVrhZvQP1fgzLjRsUgw==}
@@ -8809,6 +8817,10 @@ snapshots:
       react-native: 0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1)
     optionalDependencies:
       expo: 52.0.46(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@expo/metro-runtime@4.0.1(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1)))(react-native-webview@13.12.5(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1)
+
+  '@react-native-community/netinfo@11.4.1(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))':
+    dependencies:
+      react-native: 0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1)
 
   '@react-native-firebase/app@22.2.0(expo@52.0.46(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@expo/metro-runtime@4.0.1(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1)))(react-native-webview@13.12.5(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1))(react-native@0.76.9(@babel/core@7.27.4)(@babel/preset-env@7.26.7(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react@18.3.1)':
     dependencies:

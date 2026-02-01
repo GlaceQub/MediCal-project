@@ -61,6 +61,9 @@ cmake-build-*/
 # File-based project format
 *.iws
 
+# Firebase/Google services config (sensitive)
+google-services.json
+
 # IntelliJ
 out/
 
